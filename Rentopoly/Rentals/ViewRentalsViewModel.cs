@@ -28,7 +28,7 @@ public partial class ViewRentalsViewModel : ObservableObject, IRecipient<RentalU
     }
 
     [RelayCommand]
-    public async Task OnRefresh()
+    private async Task OnRefresh()
     {
         Rentals.Clear();
         //TODO: This just here to simulate a delay
@@ -41,6 +41,6 @@ public partial class ViewRentalsViewModel : ObservableObject, IRecipient<RentalU
 
     public async void Receive(RentalUpdates message)
     {
-        await OnRefresh();
+        await RefreshCommand.ExecuteAsync(null);
     }
 }

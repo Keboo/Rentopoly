@@ -20,6 +20,7 @@
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBox
+          materialDesign:HintAssist.Foreground="{DynamicResource PrimaryHueLightBrush}"
           materialDesign:HintAssist.Hint="Loaned to"
           Style="{StaticResource MaterialDesignFilledTextBox}"
           Text="{Binding LoanedTo, UpdateSourceTrigger=PropertyChanged}" />
@@ -30,5 +31,7 @@
           Content="_Save" />
       </Grid>
     </materialDesign:Card>
+
+    <materialDesign:Snackbar VerticalAlignment="Bottom" MessageQueue="{Binding MessageQueue}" />
   </Grid>
 </UserControl>
