@@ -1,0 +1,41 @@
+﻿<UserControl
+  x:Class="Rentopoly.Rentals.ViewRentalsView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:Rentopoly.Rentals"
+  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  d:DataContext="{d:DesignInstance Type=local:ViewRentalsViewModel,
+                                   IsDesignTimeCreatable=False}"
+  d:DesignHeight="450"
+  d:DesignWidth="800"
+  Loaded="UserControl_Loaded"
+  mc:Ignorable="d">
+  <Grid>
+    <DataGrid
+      AutoGenerateColumns="False"
+      IsReadOnly="True"
+      ItemsSource="{Binding Rentals}">
+      <DataGrid.Columns>
+        <DataGridTextColumn Binding="{Binding LoanedTo}" Header="Loaned To" />
+        <DataGridTextColumn Binding="{Binding LoanedOn}" Header="On" />
+        <DataGridTextColumn Header="Games" />
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <Button
+      Margin="3"
+      HorizontalAlignment="Right"
+      VerticalAlignment="Top"
+      Command="{Binding RefreshCommand}"
+      Content="{materialDesign:PackIcon Kind=Refresh}"
+      Style="{StaticResource MaterialDesignPaperLightButton}" />
+
+    <ProgressBar
+      IsIndeterminate="True"
+      Style="{StaticResource MaterialDesignCircularProgressBar}"
+      Visibility="{Binding RefreshCommand.IsRunning, Converter={StaticResource BooleanToVisibilityConverter}}"
+      Value="0" />
+  </Grid>
+</UserControl>

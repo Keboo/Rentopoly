@@ -1,0 +1,31 @@
+<!-- 
+This file allow for customizing your build process.
+See: https://learn.microsoft.com/visualstudio/msbuild/customize-your-build
+-->
+<Project>
+  <!--
+  Uncomment if you need to enable inclusion of another Directory.Build.props file from a parent directory
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  -->
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>11</LangVersion>
+    <!-- 
+    If you you like to see source generated files saved to disk you can enable the following:
+    https://learn.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview
+    -->
+    <!--<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>-->
+  </PropertyGroup>
+
+  <!--
+  This allows all projects to share the same user secrets file. 
+  If you want project to have their own, set it to a different GUID on each project.
+  See: https://learn.microsoft.com/dotnet/architecture/microservices/secure-net-microservices-web-applications/developer-app-secrets-storage
+  -->
+  <PropertyGroup Label="User Secrets">
+    <UserSecretsId>fd1889bd-9e67-40ff-89fc-71dfa9e1bb5d</UserSecretsId>
+  </PropertyGroup>
+
+</Project>
