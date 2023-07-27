@@ -29,8 +29,41 @@
       HorizontalAlignment="Right"
       VerticalAlignment="Top"
       Command="{Binding RefreshCommand}"
-      Content="{materialDesign:PackIcon Kind=Refresh}"
-      Style="{StaticResource MaterialDesignPaperLightButton}" />
+      Style="{StaticResource MaterialDesignPaperLightButton}">
+      <!--
+        All of this is jus tto make the icon inside of the button spin while we are loading.
+      -->
+      <Button.Content>
+        <materialDesign:PackIcon Kind="Refresh" RenderTransformOrigin="0.5,0.5">
+          <materialDesign:PackIcon.RenderTransform>
+            <RotateTransform x:Name="RefreshRotateTransform" />
+          </materialDesign:PackIcon.RenderTransform>
+          <materialDesign:PackIcon.Style>
+            <Style BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}" TargetType="materialDesign:PackIcon">
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding RefreshCommand.IsRunning}" Value="True">
+                  <DataTrigger.EnterActions>
+                    <BeginStoryboard Name="StartSpin">
+                      <BeginStoryboard.Storyboard>
+                        <Storyboard RepeatBehavior="Forever">
+                          <DoubleAnimation
+                            Storyboard.TargetProperty="RenderTransform.Angle"
+                            From="0"
+                            To="360" />
+                        </Storyboard>
+                      </BeginStoryboard.Storyboard>
+                    </BeginStoryboard>
+                  </DataTrigger.EnterActions>
+                  <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="StartSpin" />
+                  </DataTrigger.ExitActions>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </materialDesign:PackIcon.Style>
+        </materialDesign:PackIcon>
+      </Button.Content>
+    </Button>
 
     <ProgressBar
       IsIndeterminate="True"

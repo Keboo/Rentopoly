@@ -28,7 +28,7 @@ public partial class ViewRentalsViewModel : ObservableObject
     {
         Rentals.Clear();
         //TODO: This just here to simulate a delay
-        await Task.Delay(1_000);
+        await Task.Delay(2_000);
         await foreach (var rental in Context.Rentals.Where(x => x.ReturnedOn == null).AsAsyncEnumerable())
         {
             Rentals.Add(new RentalItemViewModel(rental));
