@@ -50,6 +50,12 @@ public partial class App : Application
             services.AddSingleton<AddRentalViewModel>();
             services.AddSingleton<ViewRentalsViewModel>();
 
+            services.AddSingleton<Func<Rental, RentalItemViewModel>>(serviceProvider =>
+            {
+                return (Rental rental) => new RentalItemViewModel(rental, 
+                        serviceProvider.GetRequiredService<BoardGameContext>(),
+                        serviceProvider.GetRequiredService<IMessenger>());
+            });
 
             services.AddSingleton<WeakReferenceMessenger>();
             services.AddSingleton<IMessenger, WeakReferenceMessenger>(provider => provider.GetRequiredService<WeakReferenceMessenger>());

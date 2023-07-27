@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -11,15 +12,18 @@ using Rentopoly.Data;
 
 namespace Rentopoly.Rentals;
 
-public partial class ViewRentalsViewModel : ObservableObject
+public partial class ViewRentalsViewModel : ObservableObject, IRecipient<RentalUpdates>
 {
     private BoardGameContext Context { get; }
-
+    private Func<Rental, RentalItemViewModel> RentalViewModelFactory { get; }
     public ObservableCollection<RentalItemViewModel> Rentals { get; } = new();
 
-    public ViewRentalsViewModel(BoardGameContext context)
+    public ViewRentalsViewModel(BoardGameContext context, IMessenger messenger, 
+        Func<Rental, RentalItemViewModel> rentalViewModelFactory)
     {
         Context = context ?? throw new ArgumentNullException(nameof(context));
+        RentalViewModelFactory = rentalViewModelFactory;
+        messenger.RegisterAll(this);
         BindingOperations.EnableCollectionSynchronization(Rentals, new());
     }
 
@@ -31,21 +35,12 @@ public partial class ViewRentalsViewModel : ObservableObject
         await Task.Delay(2_000);
         await foreach (var rental in Context.Rentals.Where(x => x.ReturnedOn == null).AsAsyncEnumerable())
         {
-            Rentals.Add(new RentalItemViewModel(rental));
+            Rentals.Add(RentalViewModelFactory(rental));
         }
     }
-}
 
-public class RentalItemViewModel
-{
-    public string LoanedTo { get; }
-    public DateTime LoanedOn { get; }
-    public DateTime? ReturnedOn { get; }
-
-    public RentalItemViewModel(Rental rental)
+    public async void Receive(RentalUpdates message)
     {
-        LoanedTo = rental.LoanedTo;
-        LoanedOn = rental.LoanedOn;
-        ReturnedOn = rental.ReturnedOn;
+        await OnRefresh();
     }
 }

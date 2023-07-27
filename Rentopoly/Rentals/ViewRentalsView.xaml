@@ -18,9 +18,33 @@
       IsReadOnly="True"
       ItemsSource="{Binding Rentals}">
       <DataGrid.Columns>
-        <DataGridTextColumn Binding="{Binding LoanedTo}" Header="Loaned To" />
-        <DataGridTextColumn Binding="{Binding LoanedOn}" Header="On" />
+        <DataGridTextColumn Binding="{Binding LoanedTo}" Header="Loaned To">
+          <DataGridTextColumn.ElementStyle>
+            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+              <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+          </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+        <DataGridTextColumn Binding="{Binding LoanedOn}" Header="On">
+          <DataGridTextColumn.ElementStyle>
+            <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+              <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+          </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
         <DataGridTextColumn Header="Games" />
+        <DataGridTemplateColumn CanUserSort="False">
+          <DataGridTemplateColumn.CellStyle>
+            <Style TargetType="DataGridCell">
+              <Setter Property="materialDesign:DataGridAssist.CellPadding" Value="0" />
+            </Style>
+          </DataGridTemplateColumn.CellStyle>
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate DataType="{x:Type local:RentalItemViewModel}">
+              <Button Command="{Binding ReturnedCommand}" Content="Mark Returned" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
       </DataGrid.Columns>
     </DataGrid>
 
