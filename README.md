@@ -1,35 +1,9 @@
-# WPF app template
-This template creates a full WPF application, along with unit tests.
+# Rentopolgy
 
-## Template
-Create a new app in your current directory by running.
+In addition to programming, I enjoy board games and have slowly be building up a collection of them. As board games are meant to be played, I will often loan games out to friends. However, I can often forget which games I have loaned out and to whom. The purpose of this little app is to be a simple checkout system where I can keep track of what games I have loaded out, and to who.
 
-```cli
-> dotnet new keboo.wpf
-```
+A secondary goal of this project is to be an example/learning project for others looking to learn WPF with Entity Framework Core (possibly with additional features in the future)
 
-### Parameters
-[Default template options](https://learn.microsoft.com/dotnet/core/tools/dotnet-new#options)
-
-## Key Features
-
-### Generic Host Dependency Injection
-*TODO*
-
-### CEntralized Package Management
-*TODO*
-
-### Build Customization
-*TODO*
-
-### CommunityToolkit MVVM
-*TODO*
-
-### Material Design in XAML
-*TODO*
-
-### .editorconfig formatting
-*TODO*
-
-### Testing with Moq.AutoMocker
-*TODO*
+## YouTube videos
+I work on this project as part of my [live streams](https://twitch.keboo.dev) with recordings on [YouTube](https://youtube.keboo.dev).
+- [Part 1: Starting the project](https://youtu.be/abdiokqqEl8)
