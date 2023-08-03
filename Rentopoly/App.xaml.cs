@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using Rentopoly.Data;
+using Rentopoly.Games;
 using Rentopoly.Rentals;
 
 namespace Rentopoly;
@@ -46,9 +47,9 @@ public partial class App : Application
         .ConfigureServices((hostContext, services) =>
         {
             services.AddSingleton<MainWindow>();
-            services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<AddRentalViewModel>();
             services.AddSingleton<ViewRentalsViewModel>();
+            services.AddSingleton<CatalogViewModel>();
 
             services.AddSingleton<Func<Rental, RentalItemViewModel>>(serviceProvider =>
             {

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 
+using Rentopoly.Games;
 using Rentopoly.Rentals;
 
 namespace Rentopoly;
@@ -9,14 +10,16 @@ namespace Rentopoly;
 /// </summary>
 public partial class MainWindow
 {
-    public MainWindow(ViewRentalsViewModel viewRentalsViewModel, AddRentalViewModel addRentalViewModel)
+    public MainWindow(
+        ViewRentalsViewModel viewRentalsViewModel,
+        AddRentalViewModel addRentalViewModel,
+        CatalogViewModel catalogViewModel)
     {
-        //DataContext = viewModel;
-        
         InitializeComponent();
 
         AddRentalView.DataContext = addRentalViewModel;
         ViewRentalsView.DataContext = viewRentalsViewModel;
+        GameCatalogView.DataContext = catalogViewModel;
 
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
     }
