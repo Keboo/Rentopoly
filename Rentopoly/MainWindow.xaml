@@ -12,7 +12,6 @@
   Width="800"
   Height="450"
   Style="{StaticResource MaterialDesignWindow}"
-  Topmost="True"
   mc:Ignorable="d">
   <Grid>
     <Grid.RowDefinitions>
