@@ -7,6 +7,7 @@ A secondary goal of this project is to be an example/learning project for others
 ## YouTube videos
 I work on this project as part of my [live streams](https://twitch.keboo.dev) with recordings on [YouTube](https://youtube.keboo.dev).
 - [Part 1: Starting the project](https://youtu.be/abdiokqqEl8)
+- [Part 2: Starting Game Catelog](https://youtu.be/QBeIdK95d9c)
 
 ## Structure and setup
 The above videos will provide much more in-depth explanations of the code and the process by which is was built. However here is a brief outline of some of the technology used.
