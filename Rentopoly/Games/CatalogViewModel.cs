@@ -9,8 +9,6 @@ using Rentopoly.Data;
 
 namespace Rentopoly.Games;
 
-
-
 public partial class CatalogViewModel : ObservableObject
 {
     private BoardGameContext GameContext { get; }

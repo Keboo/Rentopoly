@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Data;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -18,6 +17,8 @@ public partial class ViewRentalsViewModel : ObservableObject, IRecipient<RentalU
     private Func<Rental, RentalItemViewModel> RentalViewModelFactory { get; }
     public ObservableCollection<RentalItemViewModel> Rentals { get; } = new();
 
+    private CancellationTokenSource? _refreshCancellation;
+
     public ViewRentalsViewModel(BoardGameContext context, IMessenger messenger, 
         Func<Rental, RentalItemViewModel> rentalViewModelFactory)
     {
@@ -30,13 +31,20 @@ public partial class ViewRentalsViewModel : ObservableObject, IRecipient<RentalU
     [RelayCommand]
     private async Task OnRefresh()
     {
-        Rentals.Clear();
-        //TODO: This just here to simulate a delay
-        await Task.Delay(2_000);
-        await foreach (var rental in Context.Rentals.Where(x => x.ReturnedOn == null).AsAsyncEnumerable())
+        CancellationTokenSource cts = new();
+        Interlocked.Exchange(ref _refreshCancellation, cts)?.Cancel();
+        try
         {
-            Rentals.Add(RentalViewModelFactory(rental));
+            Rentals.Clear();
+            //TODO: This just here to simulate a delay
+            await Task.Delay(2_000, cts.Token);
+            await foreach (var rental in Context.Rentals.Where(x => x.ReturnedOn == null).AsAsyncEnumerable().WithCancellation(cts.Token))
+            {
+                Rentals.Add(RentalViewModelFactory(rental));
+            }
         }
+        catch(OperationCanceledException)
+        { }
     }
 
     public async void Receive(RentalUpdates message)
