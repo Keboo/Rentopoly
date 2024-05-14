@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 using Rentopoly.Data;
 using Rentopoly.Games;
@@ -63,7 +64,10 @@ public partial class App : Application
 
             services.AddSingleton(_ => Current.Dispatcher);
 
-            services.AddDbContext<BoardGameContext>();
+            services.AddDbContext<BoardGameContext>(dbBuilder =>
+            {
+                dbBuilder.UseSqlite("Data Source=Rentopoly.db");
+            });
 
             services.AddTransient<ISnackbarMessageQueue>(provider =>
             {

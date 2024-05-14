@@ -15,10 +15,4 @@ public class BoardGameContext : DbContext
     public BoardGameContext(DbContextOptions<BoardGameContext> options)
         : base(options)
     { }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite("Data Source=Rentopoly.db");
-        base.OnConfiguring(optionsBuilder);
-    }
 }

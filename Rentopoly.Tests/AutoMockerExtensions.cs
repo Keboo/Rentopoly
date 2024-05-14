@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 using Moq.AutoMock.Resolvers;
@@ -33,20 +31,12 @@ public static class AutoMockerExtensions
     {
         private bool _disposedValue;
 
-        public DbScopedResolver()
+        private readonly Lazy<SqliteConnection> _sqliteConnection = new(() =>
         {
-            FilePath = Path.Combine(
-                Path.GetTempPath(),
-                "RentopolyTests",
-                Guid.NewGuid().ToString("N")
-                );
-            Directory.CreateDirectory(Path.GetDirectoryName(FilePath)!);
-
-            using var context = CreateDbContext();
-            context.Database.Migrate();
-        }
-
-        private string FilePath { get; }
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+            return connection;
+        });
 
         public void Resolve(MockResolutionContext context)
         {
@@ -60,24 +50,21 @@ public static class AutoMockerExtensions
 
         public BoardGameContext CreateDbContext()
         {
-            var connectionString = new SqliteConnectionStringBuilder
-            {
-                Mode = SqliteOpenMode.ReadWriteCreate,
-                DataSource = FilePath,
-                Pooling = false
-            };
-            var options = new DbContextOptionsBuilder<BoardGameContext>().UseSqlite(connectionString.ToString()).Options;
-            return new BoardGameContext(options);
+            var builder = new DbContextOptionsBuilder<BoardGameContext>()
+                        .EnableDetailedErrors()
+                        .EnableSensitiveDataLogging()
+                        .UseSqlite(_sqliteConnection.Value);
+
+            var dbContext = new BoardGameContext(builder.Options);
+
+            dbContext.Database.EnsureCreated();
+            return dbContext;
         }
 
         private void Dispose(bool disposing)
         {
             if (!_disposedValue)
             {
-                if (disposing)
-                {
-                    File.Delete(FilePath);
-                }
                 _disposedValue = true;
             }
         }
